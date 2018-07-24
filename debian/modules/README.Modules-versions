@@ -61,3 +61,8 @@ README for Modules versions
   Homepage: https://github.com/yaoweibin/ngx_http_substitutions_filter_module
   Version: v0.6.4
   Patch: dynamic-module.patch
+
+ nginx-push-stream-module
+  Homepage: https://github.com/wandenberg/nginx-push-stream-module
+  Version: v0.5.4
+

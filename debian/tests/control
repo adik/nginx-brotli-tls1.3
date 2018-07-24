@@ -6,6 +6,10 @@ Tests: ec-x25519
 Restrictions: allow-stderr isolation-container needs-root
 Depends: nginx-light, ssl-cert, curl
 
+Tests: lua
+Restrictions: allow-stderr isolation-container needs-root
+Depends: nginx-extras, curl
+
 Tests: full-simple
 Restrictions: allow-stderr isolation-container
 Depends: nginx-full, curl
@@ -34,6 +38,7 @@ Depends: nginx-full,
          libnginx-mod-http-xslt-filter,
          libnginx-mod-mail,
          libnginx-mod-nchan,
+         libnginx-mod-rtmp,
          libnginx-mod-stream
 
 Tests: light-module-deps
@@ -56,6 +61,7 @@ Depends: nginx-light,
          libnginx-mod-http-xslt-filter,
          libnginx-mod-mail,
          libnginx-mod-nchan,
+         libnginx-mod-rtmp,
          libnginx-mod-stream
 
 Tests: extras-module-deps
@@ -78,4 +84,5 @@ Depends: nginx-extras,
          libnginx-mod-http-xslt-filter,
          libnginx-mod-mail,
          libnginx-mod-nchan,
+         libnginx-mod-rtmp,
          libnginx-mod-stream

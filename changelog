@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+nginx (1.15.0-0+xenial0~pre3) xenial; urgency=medium
+=======
+nginx (1.15.0-0+xenial0~pre2) xenial; urgency=medium
+>>>>>>> 4df6155... update changelog
+
+  * added support for TLS1_3 OpenSSL 1.1.1 (precompiled)
+  * added push-stream-server
+  * added ngx_brotli
+
+ -- Arkady Smirnov <smirnov.arkady@gmail.com>  Mon, 18 Jun 2018 11:38:24 -0400
+

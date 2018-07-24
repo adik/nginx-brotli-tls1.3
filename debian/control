@@ -2,13 +2,9 @@ Source: nginx
 Section: httpd
 Priority: optional
 Maintainer: Debian Nginx Maintainers <pkg-nginx-maintainers@lists.alioth.debian.org>
-Uploaders: Kartik Mistry <kartik@debian.org>,
-           Michael Lustfield <michael@lustfield.net>,
-           Christos Trochalakis <ctrochalakis@debian.org>
-Build-Depends: autotools-dev,
-               debhelper (>= 9),
+Uploaders: Christos Trochalakis <ctrochalakis@debian.org>
+Build-Depends: debhelper (>= 9),
                po-debconf,
-               dh-systemd (>= 1.5),
                dpkg-dev (>= 1.15.5),
                libexpat-dev,
                libgd-dev,
@@ -25,10 +21,10 @@ Build-Depends: autotools-dev,
                po-debconf,
                quilt,
                zlib1g-dev
-Standards-Version: 3.9.8.0
+Standards-Version: 4.1.4
 Homepage: http://nginx.net
-Vcs-Git: https://anonscm.debian.org/cgit/pkg-nginx/nginx.git
-Vcs-Browser: https://anonscm.debian.org/cgit/pkg-nginx/nginx.git
+Vcs-Git: https://salsa.debian.org/nginx-team/nginx.git
+Vcs-Browser: https://salsa.debian.org/nginx-team/nginx
 
 Package: nginx
 Architecture: all
@@ -112,7 +108,6 @@ Description: nginx web/proxy server (standard version)
 
 Package: nginx-light
 Architecture: any
-Priority: extra
 Depends: libnginx-mod-http-echo (= ${binary:Version}),
          nginx-common (= ${source:Version}),
          ${misc:Depends},
@@ -140,7 +135,6 @@ Description: nginx web/proxy server (basic version)
 
 Package: nginx-extras
 Architecture: any
-Priority: extra
 Depends: libnginx-mod-http-auth-pam (= ${binary:Version}),
          libnginx-mod-http-cache-purge (= ${binary:Version}),
          libnginx-mod-http-dav-ext (= ${binary:Version}),
@@ -383,3 +377,29 @@ Description: WebDAV missing commands support for Nginx
  WebDAV support.
  .
  WebDAV Ext provides the missing PROPFIND & OPTIONS methods.
+
+Package: libnginx-mod-rtmp
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: RTMP support for Nginx
+ The nginx RTMP module is a fully-featured streaming solution implemented in
+ nginx.
+ .
+ It provides the following features:
+  - Live streaming with RTMP, HLS and MPEG-DASH;
+  - RTMP Video on Demand from local or HTTP sources;
+  - Stream relay support via a push or pull model;
+  - Integrated stream recording;
+  - and more.
+
+Package: libnginx-mod-http-push-stream
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: push stream module for Nginx
+ https://github.com/wandenberg/nginx-push-stream-module
+
+Package: libnginx-mod-brotli
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: push stream module for Nginx
+ https://github.com/google/ngx_brotli

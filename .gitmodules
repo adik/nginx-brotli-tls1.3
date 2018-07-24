@@ -1,0 +1,9 @@
+[submodule "debian/modules/openssl_1.1.1"]
+	path = openssl_1.1.1
+	url = https://github.com/openssl/openssl.git
+[submodule "debian/modules/ngx_brotli"]
+	path = debian/modules/brotli
+	url = https://github.com/google/ngx_brotli.git
+[submodule "debian/modules/nginx-push-stream-module"]
+	path = debian/modules/nginx-push-stream-module
+	url = https://github.com/wandenberg/nginx-push-stream-module.git

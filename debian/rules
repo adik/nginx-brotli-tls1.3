@@ -21,9 +21,12 @@ DYN_MODS := \
 	http-subs-filter \
 	http-uploadprogress \
 	http-upstream-fair \
+	http-push-stream \
 	http-xslt-filter \
+	brotli \
 	mail \
 	nchan \
+	rtmp \
 	stream
 
 MODULESDIR = $(CURDIR)/debian/modules
@@ -61,6 +64,7 @@ common_configure_flags := \
 			--http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
 			--with-debug \
 			--with-pcre-jit \
+			--with-openssl=./openssl_1.1.1 \
 			--with-http_ssl_module \
 			--with-http_stub_status_module \
 			--with-http_realip_module \
@@ -81,7 +85,7 @@ light_configure_flags := \
 			--without-http_referer_module \
 			--without-http_split_clients_module \
 			--without-http_userid_module \
-			--add-dynamic-module=$(MODULESDIR)/nginx-echo
+			--add-dynamic-module=$(MODULESDIR)/http-echo
 
 full_configure_flags := \
 			$(common_configure_flags) \
@@ -97,11 +101,13 @@ full_configure_flags := \
 			--with-stream_ssl_preread_module \
 			--with-mail=dynamic \
 			--with-mail_ssl_module \
-			--add-dynamic-module=$(MODULESDIR)/nginx-auth-pam \
-			--add-dynamic-module=$(MODULESDIR)/nginx-dav-ext-module \
-			--add-dynamic-module=$(MODULESDIR)/nginx-echo \
-			--add-dynamic-module=$(MODULESDIR)/nginx-upstream-fair \
-			--add-dynamic-module=$(MODULESDIR)/ngx_http_substitutions_filter_module
+			--add-dynamic-module=$(MODULESDIR)/brotli \
+			--add-dynamic-module=$(MODULESDIR)/http-auth-pam \
+			--add-dynamic-module=$(MODULESDIR)/http-dav-ext \
+			--add-dynamic-module=$(MODULESDIR)/http-echo \
+			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+			--add-dynamic-module=$(MODULESDIR)/nginx-push-stream-module \
+			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
 
 extras_configure_flags := \
 			$(common_configure_flags) \
@@ -122,21 +128,24 @@ extras_configure_flags := \
 			--with-stream=dynamic \
 			--with-stream_ssl_module \
 			--with-stream_ssl_preread_module \
-			--add-dynamic-module=$(MODULESDIR)/headers-more-nginx-module \
-			--add-dynamic-module=$(MODULESDIR)/nginx-auth-pam \
-			--add-dynamic-module=$(MODULESDIR)/nginx-cache-purge \
-			--add-dynamic-module=$(MODULESDIR)/nginx-dav-ext-module \
-			--add-dynamic-module=$(MODULESDIR)/nginx-development-kit \
-			--add-dynamic-module=$(MODULESDIR)/nginx-echo \
-			--add-dynamic-module=$(MODULESDIR)/ngx-fancyindex \
+			--add-dynamic-module=$(MODULESDIR)/brotli \
+			--add-dynamic-module=$(MODULESDIR)/http-headers-more-filter \
+			--add-dynamic-module=$(MODULESDIR)/http-auth-pam \
+			--add-dynamic-module=$(MODULESDIR)/http-cache-purge \
+			--add-dynamic-module=$(MODULESDIR)/http-dav-ext \
+			--add-dynamic-module=$(MODULESDIR)/http-ndk \
+			--add-dynamic-module=$(MODULESDIR)/http-echo \
+			--add-dynamic-module=$(MODULESDIR)/http-fancyindex \
 			--add-dynamic-module=$(MODULESDIR)/nchan \
-			--add-dynamic-module=$(MODULESDIR)/nginx-lua \
-			--add-dynamic-module=$(MODULESDIR)/nginx-upload-progress \
-			--add-dynamic-module=$(MODULESDIR)/nginx-upstream-fair \
-			--add-dynamic-module=$(MODULESDIR)/ngx_http_substitutions_filter_module
+			--add-dynamic-module=$(MODULESDIR)/http-lua \
+			--add-dynamic-module=$(MODULESDIR)/rtmp \
+			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
+			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+			--add-dynamic-module=$(MODULESDIR)/nginx-push-stream-module \
+			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
 
 %:
-	dh $@ --with systemd
+	dh $@ --without autoreconf
 
 override_dh_auto_configure: config_patch_modules $(foreach flavour,$(FLAVOURS),config.arch.$(flavour))
 override_dh_auto_build:     $(foreach flavour,$(FLAVOURS),build.arch.$(flavour))
@@ -186,6 +195,7 @@ config.arch.%:
 	cp -Pa $(CURDIR)/contrib $(BUILDDIR_$*)/
 	cp -Pa $(CURDIR)/src $(BUILDDIR_$*)/
 	cp -Pa $(CURDIR)/man $(BUILDDIR_$*)/
+	cp -Pa $(CURDIR)/debian/openssl_1.1.1 $(BUILDDIR_$*)/
 	cd $(BUILDDIR_$*) && ./configure $($*_configure_flags)
 
 clean.%:
